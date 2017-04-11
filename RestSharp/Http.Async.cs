@@ -499,7 +499,7 @@ namespace RestSharp
 
 #endif
 #if NET45
-            webRequest.ServerCertificateValidationCallback = this.RemoteCertificateValidationCallback;
+            //webRequest.ServerCertificateValidationCallback = this.RemoteCertificateValidationCallback;
 #endif
             return webRequest;
         }
