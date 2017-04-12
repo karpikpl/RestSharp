@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 #if !WINDOWS_UWP
@@ -453,7 +453,8 @@ namespace RestSharp.Authenticators.OAuth
 				// In order to solve a problem with instancing RSACryptoServiceProvider
 				// via default constructor on .net 4.0 this is a hack
 				CspParameters parms = new CspParameters();
-				parms.Flags = CspProviderFlags.NoFlags;
+				// https://blogs.msdn.microsoft.com/winsdk/2009/11/16/opps-system-security-cryptography-cryptographicexception-the-system-cannot-find-the-file-specified/
+				parms.Flags = CspProviderFlags.UseMachineKeyStore;
 				parms.KeyContainerName = Guid.NewGuid().ToString().ToUpperInvariant();
 				parms.ProviderType = ((Environment.OSVersion.Version.Major > 5) || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1))) ? 0x18 : 1;
 
