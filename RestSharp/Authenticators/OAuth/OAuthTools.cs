@@ -454,7 +454,15 @@ namespace RestSharp.Authenticators.OAuth
 				// via default constructor on .net 4.0 this is a hack
 				CspParameters parms = new CspParameters();
 				// https://blogs.msdn.microsoft.com/winsdk/2009/11/16/opps-system-security-cryptography-cryptographicexception-the-system-cannot-find-the-file-specified/
-				parms.Flags = CspProviderFlags.UseMachineKeyStore;
+
+				if (System.Configuration.ConfigurationManager.AppSettings["Environment"] == "Azure")
+				{
+					parms.Flags = CspProviderFlags.UseMachineKeyStore;
+				}
+				else
+				{
+					parms.Flags = CspProviderFlags.NoFlags;
+				}
 				parms.KeyContainerName = Guid.NewGuid().ToString().ToUpperInvariant();
 				parms.ProviderType = ((Environment.OSVersion.Version.Major > 5) || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1))) ? 0x18 : 1;
 
@@ -616,7 +624,7 @@ namespace RestSharp.Authenticators.OAuth
 				assumedLength = (int)(logbase + 1.0);
 				assumedLength = (int)(Math.Pow(2, assumedLength));
 				System.Diagnostics.Debug.Assert(false);  // Can this really happen in the field?  I've never seen it, so if it happens
-														 // you should verify that this really does the 'right' thing!
+									 // you should verify that this really does the 'right' thing!
 			}
 
 			switch (assumedLength)
